@@ -90,6 +90,8 @@ public class DoubleVector{
 
 	public Integer pop_back(){
 		try{
+			if (this.empty() == true)	return null;
+			// Other wise:
 			Integer lastPosition		= this.tail_marker - 1;
 			Integer save 			= this.list[lastPosition];
 			this.list[lastPosition] 	= null;
@@ -114,7 +116,7 @@ public class DoubleVector{
 			this.size += 1;
 		}
 		catch (Exception e){
-			// Method defined next, line 122
+			// Method defined next, line 124
 			this.shiftToRight(value);
 		}
 	}
@@ -140,6 +142,8 @@ public class DoubleVector{
 
 	public Integer pop_front(){
 		try{
+			if (this.empty() == true)		return null;
+			// Other wise:
 			Integer firstPosition		= this.head_marker + 1;
 			Integer save 			= this.list[firstPosition];
 			this.list[firstPosition] 	= null;
