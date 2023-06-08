@@ -233,7 +233,7 @@ public class DoubleVector{
 
 	public void print(){
 		Integer listIni = this.head_marker + 1;
-		Integer listEnd = this.tail_marker - 1;
+		Integer listEnd = this.tail_marker;
 		for(Integer i = listIni; i < listEnd; i++){
 			System.out.print(this.list[i]);
 			if (i != listEnd - 1) System.out.print(" ");
@@ -241,7 +241,7 @@ public class DoubleVector{
 	}
 
 	public void printReverse(){
-		Integer listIni = this.head_marker + 1;
+		Integer listIni = this.head_marker;
 		Integer listEnd = this.tail_marker - 1;
 		for(Integer i = listEnd; i > listIni; i--){
 			System.out.print(this.list[i]);
