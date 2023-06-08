@@ -20,8 +20,8 @@ public class DoubleVector{
 		try{
 			this.list = new Integer[n];
 			if (n == 1){
-				this.head_marker = 0;
-				this.tail_marker = this.head_marker;
+				this.head_marker = -1;
+				this.tail_marker = 1;
 			}
 			else{
 				this.head_marker = (n / 2);
