@@ -55,37 +55,39 @@ public class DoubleVector{
 		}
 		catch (Exception e){
 			// Method defined next, line 66
-			this.shiftToLeft(value);
+			this.shift(value);
 		}
 	}
 
 	private void sizeCheck(){
-		if (this.capacity == this.size) this.resize();
+		if (this.capacity <= this.size + 1) this.resize();
 	}
 
-	private void shiftToLeft(Integer value){
+	private void shift(Integer value){
 		try{
 			// Moves based on the disposition of free spaces after the shift
 			Integer freeSpace 	= (this.capacity - (this.size + 1));
 			Integer freeAtEnd 	= freeSpace / 2;
 			Integer freeAtIni 	= freeSpace - freeAtEnd;
 
-			for(Integer i = this.head_marker; i < this.capacity; i++){
-				if (i > (freeAtIni + this.size)) 	this.list[i] = null;
-				else	 				this.list[i-freeAtIni] = this.list[i];
+			Integer[] tmpArr = new Integer[this.capacity];
+			for(Integer i = 0; i < this.size - 1; i++){
+				tmpArr[i+freeAtIni] = this.at(i);
 			}
-			// Method defined on line 85.
-			this.markersAfterShift(freeAtIni, freeAtEnd);
+			tmpArr[this.capacity - freeAtEnd - 1] = value;
+			this.list = tmpArr;
+			// Method defined on line 88.
+			this.size += 1;
+			this.fixMarkers(freeAtIni, freeAtEnd);
 		}
 		catch (Exception e){
-			System.out.println("Error while shifting the list\n");
+			System.out.println("Error while shifting");
 		}
-	}	
+	}
 
-	private void markersAfterShift(Integer freeAtIni, Integer freeAtEnd){
+	private void fixMarkers(Integer freeAtIni, Integer freeAtEnd){
 			this.head_marker = freeAtIni - 1;
-			this.size += 1;
-			this.tail_marker = freeAtIni + this.size;
+			this.tail_marker = this.capacity - freeAtEnd;
 	}
 
 	public Integer pop_back(){
@@ -116,27 +118,8 @@ public class DoubleVector{
 			this.size += 1;
 		}
 		catch (Exception e){
-			// Method defined next, line 124
-			this.shiftToRight(value);
-		}
-	}
-
-	private void shiftToRight(Integer value){
-		try{
-			// Moves based on the disposition of free spaces after the shift
-			Integer freeSpace 	= (this.capacity - (this.size + 1));
-			Integer freeAtEnd 	= freeSpace / 2;
-			Integer freeAtIni 	= freeSpace - freeAtEnd;
-
-			for(Integer i = this.head_marker; i < this.capacity; i++){
-				if (i > (freeAtIni + this.size)) 	this.list[i] = null;
-				else 					this.list[i-freeAtIni] = this.list[i];
-			}
-			// Method defined on line 85.
-			this.markersAfterShift(freeAtIni, freeAtEnd);
-		}
-		catch (Exception e){
-			System.out.println("Error while shifting the list\n");
+			// Method defined next, line 66
+			this.shift(value);
 		}
 	}
 
@@ -172,18 +155,25 @@ public class DoubleVector{
 	}
 
 	private void resize(){
-		this.capacity *= 2;
-		Integer[] tmpArr = new Integer[this.capacity];
-		// Moves based on the disposition of free spaces after the resizing
-		Integer freeSpace 	= (this.capacity - (this.size + 1));
-		Integer freeAtEnd 	= freeSpace / 2;
-		Integer freeAtIni 	= freeSpace - freeAtEnd;
+		try{
+			this.capacity *= 2;
+			Integer[] tmpArr = new Integer[this.capacity];
+			// Moves based on the disposition of free spaces after the resizing
+			Integer freeSpace 	= (this.capacity - (this.size));
+			Integer freeAtEnd 	= freeSpace / 2;
+			Integer freeAtIni 	= freeSpace - freeAtEnd;
 
-		// this.size should be identical to the old capacity
-		for(Integer i = 0; i < this.size; i++) tmpArr[freeAtIni + i] = this.list[i];
+			// this.size should be identical to the old capacity
+			for(Integer i = 0; i < this.size; i++) tmpArr[freeAtIni + i] = this.at(i);
 
-		// Overwrites the old list array with the new one
-		this.list = tmpArr;
+			// Overwrites the old list array with the new one
+			this.list = tmpArr;
+			// Method defined on line 88
+			this.fixMarkers(freeAtIni, freeAtEnd);
+		}
+		catch (Exception e){
+			System.out.println("Error on resize");
+		}
 	}
 
 	public void remove(Integer k){
